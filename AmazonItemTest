@@ -51,27 +51,43 @@ public class AmazonFeatureTest {
 		
 		String productItem = "Kindle";
 		String categroy = "Electronics";
+
 		WebElement selDropdown = driver.findElement(By.id("searchDropdownBox"));
+
 		Select selCategory = new Select(selDropdown);
+
 		selCategory.selectByVisibleText(categroy);
+
 		driver.findElement(By.id("twotabsearchtextbox")).sendKeys(productItem);
+
 		driver.findElement(By.xpath("//input[@value='Go']")).click();
+
 	}
 	
 	@Test(priority = 200)
 	public void getNthProduct() {
+
 		int productItemNum = 6;
+
 		String xpathExpression = String.format("//div[@data-component-type='s-search-result'][%d]", productItemNum);
+
 		WebElement nthProduct = driver.findElement(By.xpath(xpathExpression));
+
 		String nthProductInfo = nthProduct.getText();
+
 		System.out.print(nthProductInfo);
+
 	}
 	
 	@Test(priority = 300)
 	public void getAllProduct() {
+
 		String productInfo;
+
 		String xpathExpression = "//div[@data-component-type='s-search-result']";
+
 		List<WebElement> AllProducts = driver.findElements(By.xpath(xpathExpression));
+
 		for (WebElement product : AllProducts) {
 			productInfo = product.getText();
 			System.out.println(productInfo);
