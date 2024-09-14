@@ -1,0 +1,94 @@
+package automationScripts;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class AmazonFeatureTest {
+	
+	ChromeDriver driver;
+    
+	@BeforeClass
+	public void invokeBrowser() {
+		
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Administrator\\Desktop\\Selenium Testing\\chromedriver.exe");
+	
+		driver = new ChromeDriver();
+		
+		driver.manage().window().maximize();
+		
+		driver.manage().deleteAllCookies();
+		
+		driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+		
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		
+		driver.get("https://amazon.com");
+		
+	}
+	
+	@Test(priority = 0)
+	public void verifyTitle() {
+		
+		String expectedTitle = "Amazon.com";
+		String actualTitle;
+		
+		actualTitle = driver.getTitle();
+		
+		Assert.assertEquals(actualTitle, expectedTitle);
+		
+	}
+	
+	@Test(priority = 100)
+	public void searchProduct() {
+		
+		String productItem = "Kindle";
+		String categroy = "Electronics";
+		WebElement selDropdown = driver.findElement(By.id("searchDropdownBox"));
+		Select selCategory = new Select(selDropdown);
+		selCategory.selectByVisibleText(categroy);
+		driver.findElement(By.id("twotabsearchtextbox")).sendKeys(productItem);
+		driver.findElement(By.xpath("//input[@value='Go']")).click();
+	}
+	
+	@Test(priority = 200)
+	public void getNthProduct() {
+		int productItemNum = 6;
+		String xpathExpression = String.format("//div[@data-component-type='s-search-result'][%d]", productItemNum);
+		WebElement nthProduct = driver.findElement(By.xpath(xpathExpression));
+		String nthProductInfo = nthProduct.getText();
+		System.out.print(nthProductInfo);
+	}
+	
+	@Test
+	public void getAllProduct() {
+		String productInfo;
+		String xpathExpression = "//div[@data-component-type='s-search-result']";
+		List<WebElement> AllProducts = driver.findElement(By.xpath(xpathExpression));
+		for (WebElement product : AllProducts) {
+			productInfo = product.getText();
+			System.out.println(productInfo);
+			System.out.println("---------------------------------------------------");
+			
+		}
+	}
+	
+	@AfterClass
+	public void closeBrowser() {
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		driver.quit();
+		
+	}
+}
