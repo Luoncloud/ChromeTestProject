@@ -67,11 +67,11 @@ public class AmazonFeatureTest {
 		System.out.print(nthProductInfo);
 	}
 	
-	@Test
+	@Test(priority = 300)
 	public void getAllProduct() {
 		String productInfo;
 		String xpathExpression = "//div[@data-component-type='s-search-result']";
-		List<WebElement> AllProducts = driver.findElement(By.xpath(xpathExpression));
+		List<WebElement> AllProducts = driver.findElements(By.xpath(xpathExpression));
 		for (WebElement product : AllProducts) {
 			productInfo = product.getText();
 			System.out.println(productInfo);
