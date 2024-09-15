@@ -1,0 +1,167 @@
+package seleniumScripts;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class YoutubeTest {
+	
+ChromeDriver driver;
+    
+	@BeforeClass
+	public void invokeBrowser() {
+		
+		
+		System.setProperty("webdriver.chrome.driver", "/Users/lu/Desktop/AutomationProject/chromedriver");
+	
+		driver = new ChromeDriver();
+		
+		driver.manage().window().maximize();
+		
+		driver.manage().deleteAllCookies();
+		
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+		
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.get("https://youtube.com");
+		
+	}
+	
+	
+	
+	@Test(priority = 0)
+	public void verifyTitle() {
+		
+		String expectedTitle = "YouTube";
+		String actualTitle;
+		
+		actualTitle = driver.getTitle();
+		
+		Assert.assertEquals(actualTitle, expectedTitle);
+		
+	}
+	
+	
+	
+	@Test(priority = 100)
+	public void searchSinger() {
+		
+		String topic = "The verve";
+
+        WebElement searchBox = driver.findElement(By.xpath("//input[@id=\"search\"]"));
+
+
+		searchBox.sendKeys(topic);
+        searchBox.sendKeys(Keys.ENTER);
+        
+		WebElement singerPage = driver.findElement(By.xpath("/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[1]/div[1]/div/div[2]/ytd-channel-name/div/div/yt-formatted-string"));
+		singerPage.click();
+		
+		WebElement singerVids = driver.findElement(By.xpath("//div[@id=\"tabsContent\"]/yt-tab-group-shape/div[1]/yt-tab-shape[2]/div[1]"));
+		singerVids.click();
+		
+		WebElement singerVidsByView = driver.findElement(By.xpath("/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse[2]/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[1]/ytd-feed-filter-chip-bar-renderer/div/div/div[3]/iron-selector/yt-chip-cloud-chip-renderer[2]/yt-formatted-string"));
+		singerVidsByView.click();
+		
+		WebElement singerMostPopular = driver.findElement(By.xpath("/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse[2]/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-item-renderer[1]/div/ytd-rich-grid-media/div[1]/div[1]/ytd-thumbnail/a/yt-image/img"));
+		singerMostPopular.click();
+		
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		driver.navigate().back();
+		
+		
+	}
+	
+	
+	
+	@Test(priority = 200)
+	public void OtherSongs() {
+		
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+		
+        try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		js.executeScript("window.scrollBy(0, 300)"); 
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		js.executeScript("window.scrollBy(0, 500)");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		js.executeScript("window.scrollBy(0, 700)");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		js.executeScript("window.scrollBy(0, 900)");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		js.executeScript("window.scrollBy(0, -700)"); 
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		js.executeScript("window.scrollBy(0, -500)");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		js.executeScript("window.scrollBy(0, -300)");
+
+	}
+
+
+	
+	@AfterClass
+	public void closeBrowser() {
+		
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		driver.quit();
+		
+	}
+
+}
